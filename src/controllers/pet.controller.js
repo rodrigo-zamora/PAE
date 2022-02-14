@@ -52,14 +52,10 @@ class PetController {
 
   getPet(name) {
     const pets = this.getterFunction();
-    const petIndex = this.getIndex(name);
-    if(pets[petIndex]>=0){
-      return pets[petIndex];
-    } else {
-      throw new NotFoundError(`pet with the petname: ${name}`);
-    }
+    const foundPet = pets.find(pet => pet.name == name);
+    if (foundPet) return foundPet;
+    throw new NotFoundError(`pet with the p etname: ${name}`);
   }
-
 };
 
 module.exports = PetController;

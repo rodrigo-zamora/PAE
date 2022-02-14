@@ -5,7 +5,7 @@ const dataPath = path.join(__dirname, '../data/pets.json');
 const backupPath = path.join(__dirname, '../data/pets-backup.json');
 
 function saveJSON(json) {
-  const content = JSON.stringify(json);
+  const content = JSON.stringify(json, null, 2);
   fs.writeFileSync(dataPath, content);
 }
 
