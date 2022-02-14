@@ -8,6 +8,7 @@ const app = require('../../src/app');
 const endFunction = require('./helpers/supertest-jasmine');
 
 afterAll(() => {
+  console.log('RESTORING DATA');
   restore();
 });
 
@@ -57,4 +58,29 @@ describe('/pets', () => {
 
     });
   });
+
+  describe('PUT', () => {
+    it('200 OK with updated pet', async () => {
+      // Arrange
+      const updatedPet = {
+        name: 'Firulais II',
+        specie: 'Dog'
+      };
+      const name = 'Firulais';
+
+      // Act
+      await request(app)
+        .put(`/pets/${name}`)
+        .send(updatedPet)
+        .set('Accept', 'application/json');
+      
+      const { status , body: obtainedPet } = await request(app)
+        .get(`/pets/${updatedPet.name}`);
+
+      // Assert
+      expect(status).toEqual(200);
+      expect(obtainedPet).toEqual(updatedPet);
+
+      });
+    });
 });

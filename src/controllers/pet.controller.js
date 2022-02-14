@@ -32,11 +32,12 @@ class PetController {
 
   update(name, petProperties) {
     const pets = this.getterFunction();
+    const toBeUpdated = this.getPet(name);
     const petIndex = this.getIndex(name);
-    pets[petIndex] = petProperties;
+    const updatedPet = {...toBeUpdated, ...petProperties};
+    pets[petIndex] = updatedPet;
     this.saverFunction(pets);
-    if (pets[petIndex] >= 0) return pets[petIndex];
-    throw new NotFoundError(`pet with the petname: ${name}`);
+    return updatedPet;
   }
 
   delete(name) {
@@ -47,14 +48,14 @@ class PetController {
       delete pets[petIndex];
       return copyPet;
     }
-    throw new NotFoundError(`pet with the petname: ${name}`);
+    throw new NotFoundError(`pet with the name: ${name}`);
   }
 
   getPet(name) {
     const pets = this.getterFunction();
     const foundPet = pets.find(pet => pet.name == name);
     if (foundPet) return foundPet;
-    throw new NotFoundError(`pet with the p etname: ${name}`);
+    throw new NotFoundError(`pet with the name: ${name}`);
   }
 };
 
