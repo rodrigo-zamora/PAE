@@ -51,11 +51,13 @@ class PetController {
   }
 
   getPet(name) {
-    //return this.get(name);
-    //throw new NotFoundError(`pet with the petname: ${name}`);
-    const pets =  pets.find(pet => pet.name == name);
-    if(pets) return pets;
-    throw new NotFoundError(`pet with the petname: ${name}`);
+    const pets = this.getterFunction();
+    const petIndex = this.getIndex(name);
+    if(pets[petIndex]>=0){
+      return pets[petIndex];
+    } else {
+      throw new NotFoundError(`pet with the petname: ${name}`);
+    }
   }
 
 };
