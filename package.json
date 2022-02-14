@@ -8,8 +8,8 @@
     "dev": "nodemon src/server.js",
     "test:unit": "jasmine --config=unit-tests.json",
     "test:integration": "jasmine --config=integration-tests.json",
-    "test:unit-coverage": "istanbul cover --include-all-sources node_modules/jasmine/bin/jasmine.js -- --config=unit-tests.json",
-    "test:integration-coverage": "istanbul cover --include-all-sources node_modules/jasmine/bin/jasmine.js -- --config=integration-tests.json"
+    "test:unit-coverage": "nyc npm run test:unit",
+    "test:integration-coverage": "nyc npm run test:integration"
   },
   "keywords": [],
   "author": "",
@@ -24,6 +24,7 @@
     "supertest": "^6.2.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "nyc": "^15.1.0"
   }
 }
