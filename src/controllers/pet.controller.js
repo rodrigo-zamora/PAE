@@ -14,14 +14,13 @@ class PetController {
 
   getIndex(name) {
     const pets = this.getterFunction();
-    const index =  pets.findIndex(pet => pet.name == name);
-    if(index) return index;  //throw new NotFoundError(`pet with the petname: ${name}`);
+    return pets.findIndex(pet => pet.name == name);
   }
 
   get(name) {
-    const pets =  pets.find(pet => pet.name == name);
-    if(pets) return pets;
-    throw new NotFoundError(`pet with the petname: ${name}`);
+    const foundPet = pets.find(pet => pet.name == name);
+    if(foundPet) return foundPet;
+    throw new NotFoundError(`pet with the name: ${name}`);
   }
 
   create(pet) {
