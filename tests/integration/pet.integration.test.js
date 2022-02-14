@@ -50,8 +50,6 @@ describe('/pets', () => {
       const { status , body: obtainedPet } = await request(app)
         .get(`/pets/${newPet.name}`);
 
-      console.log(obtainedPet);
-
       // Assert
       expect(status).toEqual(200);
       expect(obtainedPet).toEqual(newPet);
@@ -80,6 +78,22 @@ describe('/pets', () => {
       // Assert
       expect(status).toEqual(200);
       expect(obtainedPet).toEqual(updatedPet);
+
+      });
+    });
+
+    describe('DELETE', () => {
+      it('200 OK with deleted pet', async () => {
+        // Arrange
+        const name = 'Firulais II';
+
+        // Act
+        const { status , body: obtainedPet } = await request(app)
+          .delete(`/pets/${name}`);
+
+        // Assert
+        expect(status).toEqual(200);
+        expect(obtainedPet.name).toEqual(name);
 
       });
     });

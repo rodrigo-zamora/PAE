@@ -42,13 +42,11 @@ class PetController {
 
   delete(name) {
     const pets = this.getterFunction();
+    const toBeDeleted = this.getPet(name);
     const petIndex = this.getIndex(name);
-    const copyPet = {...pets[petIndex]};
-    if(pets[petIndex]>=0){
-      delete pets[petIndex];
-      return copyPet;
-    }
-    throw new NotFoundError(`pet with the name: ${name}`);
+    pets.splice(petIndex, 1);
+    this.saverFunction(pets);
+    return toBeDeleted;
   }
 
   getPet(name) {
