@@ -16,7 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.2",
-    "istanbul": "^1.0.0-alpha.2",
+    "istanbul": "^0.4.5",
     "jasmine": "^4.0.2",
     "jasmine-spec-reporter": "^7.0.0",
     "joi": "^17.6.0",

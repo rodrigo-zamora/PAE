@@ -1,6 +1,12 @@
 const pets = require('../data/pets.json');
-const {saveJSON, getJSON} = require('../utils/fileHelpers');
-const {NotFoundError} = require('../utils/errors');
+const {
+  saveJSON,
+  getJSON
+} = require('../utils/fileHelpers');
+const {
+  NotFoundError
+} = require('../utils/errors');
+const res = require('express/lib/response');
 
 class PetController {
   constructor(saverFunction = saveJSON, getterFunction = getJSON) {
@@ -18,42 +24,56 @@ class PetController {
   }
 
   get(name) {
-    const foundPet = pets.find(pet => pet.name == name);
-    if(foundPet) return foundPet;
-    throw new NotFoundError(`pet with the name: ${name}`);
+    const petIndex = this.getIndex(name);
+    const pets = this.getterFunction();
+    const foundPet = pets[petIndex];
+    if (foundPet) {
+      return foundPet;
+    } else {
+      res.status(404);
+      return new NotFoundError(`Pet ${name} not found`);
+    }
   }
 
   create(pet) {
     const pets = this.getterFunction();
     pets.push(pet);
     this.saverFunction(pets);
+    res.status(200);
     return pet;
   }
 
   update(name, petProperties) {
-    const pets = this.getterFunction();
-    const toBeUpdated = this.getPet(name);
     const petIndex = this.getIndex(name);
-    const updatedPet = {...toBeUpdated, ...petProperties};
-    pets[petIndex] = updatedPet;
-    this.saverFunction(pets);
-    return updatedPet;
+    const pets = this.getterFunction();
+    const foundPet = pets[petIndex];
+    if (foundPet) {
+      pets[petIndex] = {
+        ...foundPet,
+        ...petProperties
+      };
+      this.saverFunction(pets);
+      res.status(200);
+      return pets[petIndex];
+    } else {
+      res.status(404);
+      return new NotFoundError(`pet with the name: ${name}`);
+    }
   }
 
   delete(name) {
-    const pets = this.getterFunction();
-    const toBeDeleted = this.getPet(name);
     const petIndex = this.getIndex(name);
-    pets.splice(petIndex, 1);
-    this.saverFunction(pets);
-    return toBeDeleted;
-  }
-
-  getPet(name) {
     const pets = this.getterFunction();
-    const foundPet = pets.find(pet => pet.name == name);
-    if (foundPet) return foundPet;
-    throw new NotFoundError(`pet with the name: ${name}`);
+    const foundPet = pets[petIndex];
+    if (foundPet) {
+      pets.splice(petIndex, 1);
+      this.saverFunction(pets);
+      res.status(200);
+      return foundPet;
+    } else {
+      res.status(404);
+      return new NotFoundError(`pet with the name: ${name}`);
+    }
   }
 };
 

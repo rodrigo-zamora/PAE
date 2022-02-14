@@ -14,7 +14,7 @@ router.get('/', handleError((req, res) => {
 // GET pets/:name
 router.get('/:name', handleError((req, res) => {
   const { params: {name}} = req;
-  res.send(petController.getPet(name));
+  res.send(petController.get(name));
 }));
 
 // POST pets/
