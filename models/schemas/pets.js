@@ -3,18 +3,18 @@ const Joi = require('joi');
 const createSchema = Joi.object().keys({
   specie: Joi.string(),
   gender: Joi.string()
-    .valid('M','F')
-    .required(),
+    .required()
+    .valid('Male','Female'),
   url: Joi.string()
     .required()
-    .regex(/^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.*$/),
+    .regex(/^https?:\/\/[\w\-]+(\.[\w\-]+)+[#?]?.*$/gm),
   description: Joi.string(),
   photo: Joistring()
     .required()
-    .regex(/^https?:\/\/[\w\-]+(\.[\w\-]+)+[/#?]?.JPG$/),
+    .regex(/(https?:\/\/.*\.(?:png|jpg|jpeg))/gm),
   name: Joi.string()
-    .min(3)
     .required() 
+    .min(3),
 });
 
 module.exports = {createSchema};

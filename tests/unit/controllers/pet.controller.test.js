@@ -26,7 +26,7 @@ describe('test', () => {
   });
 
   describe('list', () => {
-    it('return the pets', () => {
+    it('should return a list of all pets', () => {
       //Arrange
       const expectedRes = petsData;
 
@@ -50,21 +50,17 @@ describe('test', () => {
       expect(fn).toThrowError();
     });
 
-    /*  NO FUNCIONA AAAH :(
+    it('should return the index of a pet', () => {
+      // Arrange
+      const name = 'Ruff';
+      const expectedRes = petsData.findIndex(pet => pet.name === name);
 
-    it('return index', () => {
-      //Arrange
-      const name = petsData[0].name;
-      //console.log(name);
-      const expectedIndex = 1;
-     
-      //Act
-      const index = petController.getIndex(name);
-      console.log(index);
+      // Act
+      const result = petController.getIndex(name);
 
-      //Assert
-      expect(index).toBe(expectedIndex);
-    }); */
+      // Assert
+      expect(result).toEqual(expectedRes);
+    }); 
   });
 
   describe('get', () => {

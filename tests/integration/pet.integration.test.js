@@ -11,6 +11,13 @@ afterAll(() => {
   restore();
 });
 
+describe('/', () => {
+  it('should return "Hello World!!!"', async () => {
+    const response = await request(app).get('/');
+    expect(response.text).toBe('Hello World!!!');
+  });
+});
+
 describe('/pets', () => {
   describe('GET', () => {
     it('should return a list of all pets', async () => {
