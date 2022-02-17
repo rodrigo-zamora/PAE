@@ -4,6 +4,8 @@ const {handleError} = require('../utils/hof');
 
 const PetController = require('../controllers/pet.controller');
 const petController = new PetController();
+const { updateSchema, createSchema } = require('../../models/schemas/pets');
+
 // path prefix /pets
 
 // GET pets
@@ -18,14 +20,18 @@ router.get('/:name', handleError((req, res) => {
 }));
 
 // POST pets/
-router.post('/', handleError((req, res) => {
+router.post('/', handleError((req, res, next) => {
   const {body} = req;
+  const {error} = createSchema.validate(body);
+  if(error) return next(error);
   res.send(petController.create(body));
 }));
 
 // PUT pets/:name
-router.put('/:name', handleError((req, res) => {
+router.put('/:name', handleError((req, res, next) => {
   const {body, params: {name}} = req;
+  const {error} = createSchema.validate(body);
+  if(error) return next(error);
   res.send(petController.update(name, body));
 }));
 

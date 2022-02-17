@@ -1,5 +1,7 @@
 const PetController = require('../../../src/controllers/pet.controller');
-const { NotFoundError } = require('../../../src/utils/errors');
+const {
+  NotFoundError
+} = require('../../../src/utils/errors');
 
 const fileHelpers = jasmine.createSpyObj('MockedHelpers', ['save', 'get'])
 
@@ -42,31 +44,51 @@ describe('PetController', () => {
   describe('create', () => {
     it('should create a new pet', () => {
       const pet = petContoller.create({
-        name: 'Firulais I',
-        specie: 'Dog'
+        specie: "Dog",
+        gender: "Female",
+        name: "Spark",
+        description: "Hi there, my name is Sparkly Spark, my age is at 10-month-old Spayed female with Samoyed, Siberian husky, and a bit of shepherd breed in me...",
+        url: "https://www.petfinder.com/dog/spark-54652919/ca/san-juan-bautista/harperhuskyhouse-ca2442/",
+        photo: "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/54652919/1/?bust=1645081307&width=300"
       });
       expect(pet).toEqual({
-        name: 'Firulais I',
-        specie: 'Dog'
+        specie: "Dog",
+        gender: "Female",
+        name: "Spark",
+        description: "Hi there, my name is Sparkly Spark, my age is at 10-month-old Spayed female with Samoyed, Siberian husky, and a bit of shepherd breed in me...",
+        url: "https://www.petfinder.com/dog/spark-54652919/ca/san-juan-bautista/harperhuskyhouse-ca2442/",
+        photo: "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/54652919/1/?bust=1645081307&width=300"
       });
     });
   });
   describe('update', () => {
     it('should update the pet', () => {
-      const pet = petContoller.update('Firulais I', {
-        name: 'Firulais III',
-        specie: 'Cat'
+      const pet = petContoller.update('Spark', {
+        specie: "Dog",
+        gender: "Female",
+        name: "Spark II",
+        description: "Hi there, my name is Sparkly Spark, my age is at 10-month-old Spayed female with Samoyed, Siberian husky, and a bit of shepherd breed in me...",
+        url: "https://www.petfinder.com/dog/spark-54652919/ca/san-juan-bautista/harperhuskyhouse-ca2442/",
+        photo: "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/54652919/1/?bust=1645081307&width=300"
       });
       expect(pet).toEqual({
-        name: 'Firulais III',
-        specie: 'Cat'
+        specie: "Dog",
+        gender: "Female",
+        name: "Spark II",
+        description: "Hi there, my name is Sparkly Spark, my age is at 10-month-old Spayed female with Samoyed, Siberian husky, and a bit of shepherd breed in me...",
+        url: "https://www.petfinder.com/dog/spark-54652919/ca/san-juan-bautista/harperhuskyhouse-ca2442/",
+        photo: "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/54652919/1/?bust=1645081307&width=300"
       });
     });
     it('should return an error if the pet is not found', () => {
       const name = 'NotFound';
       const pet = petContoller.update(name, {
-        name: 'Firulais III',
-        specie: 'Cat'
+        specie: "Dog",
+        gender: "Female",
+        name: "Spark II",
+        description: "Hi there, my name is Sparkly Spark, my age is at 10-month-old Spayed female with Samoyed, Siberian husky, and a bit of shepherd breed in me...",
+        url: "https://www.petfinder.com/dog/spark-54652919/ca/san-juan-bautista/harperhuskyhouse-ca2442/",
+        photo: "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/54652919/1/?bust=1645081307&width=300"
       });
       expect(pet).toEqual(new NotFoundError(`pet with the name: ${name}`));
     });

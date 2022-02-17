@@ -84,8 +84,12 @@ describe('/pets/:name', () => {
     it('should create a new pet', async () => {
       // Arrange
       const newPet = {
-        name: 'Firulais',
-        specie: 'Dog'
+        specie: "Dog",
+        gender: "Female",
+        name: "Spark",
+        description: "Hi there, my name is Sparkly Spark, my age is at 10-month-old Spayed female with Samoyed, Siberian husky, and a bit of shepherd breed in me...",
+        url: "https://www.petfinder.com/dog/spark-54652919/ca/san-juan-bautista/harperhuskyhouse-ca2442/",
+        photo: "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/54652919/1/?bust=1645081307&width=300"
       };
       // Act
       await request(app)
@@ -104,16 +108,46 @@ describe('/pets/:name', () => {
       expect(obtainedPet).toEqual(newPet);
 
     });
+    it('should return 404 if the pet is incomplete', async () => {
+      // Arrange
+      const newPet = {
+        specie: "Dog",
+        gender: "Female",
+        description: "Hi there, my name is Sparkly Spark, my age is at 10-month-old Spayed female with Samoyed, Siberian husky, and a bit of shepherd breed in me...",
+        url: "https://www.petfinder.com/dog/spark-54652919/ca/san-juan-bautista/harperhuskyhouse-ca2442/",
+        photo: "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/54652919/1/?bust=1645081307&width=300"
+      };
+      // Act
+      await request(app)
+        .post('/pets')
+        .send(newPet)
+        .set('Accept', 'application/json');
+
+      const {
+        status,
+        body: obtainedPet
+      } = await request(app)
+        .get(`/pets/${newPet.name}`);
+
+      // Assert
+      expect(status).toEqual(404);
+      expect(obtainedPet).toEqual({});
+      
+    });
   });
 
   describe('PUT', () => {
     it('should update a pet', async () => {
       // Arrange
       const updatedPet = {
-        name: 'Firulais II',
-        specie: 'Dog'
-      };
-      const name = 'Firulais';
+        specie: "Dog",
+        gender: "Female",
+        name: "Spark II",
+        description: "Hi there, my name is Sparkly Spark, my age is at 10-month-old Spayed female with Samoyed, Siberian husky, and a bit of shepherd breed in me...",
+        url: "https://www.petfinder.com/dog/spark-54652919/ca/san-juan-bautista/harperhuskyhouse-ca2442/",
+        photo: "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/54652919/1/?bust=1645081307&width=300"
+    };
+      const name = 'Spark';
 
       // Act
       await request(app)
@@ -136,10 +170,14 @@ describe('/pets/:name', () => {
     it('should return a 404 if the pet is not found', async () => {
       // Arrange
       const updatedPet = {
-        name: 'Firulais II',
-        specie: 'Dog'
-      };
-      const name = 'FirulaisNotFound';
+        specie: "Dog",
+        gender: "Female",
+        name: "Spark II",
+        description: "Hi there, my name is Sparkly Spark, my age is at 10-month-old Spayed female with Samoyed, Siberian husky, and a bit of shepherd breed in me...",
+        url: "https://www.petfinder.com/dog/spark-54652919/ca/san-juan-bautista/harperhuskyhouse-ca2442/",
+        photo: "https://dl5zpyw5k3jeb.cloudfront.net/photos/pets/54652919/1/?bust=1645081307&width=300"
+    };
+      const name = 'SparkNotFound';
 
       // Act
       const {
@@ -159,7 +197,7 @@ describe('/pets/:name', () => {
   describe('DELETE', () => {
     it('should delete a pet', async () => {
       // Arrange
-      const name = 'Firulais II';
+      const name = 'Spark II';
 
       // Act
       const {
@@ -176,7 +214,7 @@ describe('/pets/:name', () => {
 
     it('should return a 404 if the pet is not found', async () => {
       // Arrange
-      const name = 'FirulaisNotFound II';
+      const name = 'SparkNotFound II';
 
       // Act
       const {

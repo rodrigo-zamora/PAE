@@ -1,20 +1,23 @@
 const Joi = require('joi');
 
-const createSchema = Joi.object().keys({
+const updateSchema = Joi.object().keys({
   specie: Joi.string(),
   gender: Joi.string()
-    .required()
     .valid('Male','Female'),
   url: Joi.string()
-    .required()
-    .regex(/^https?:\/\/[\w\-]+(\.[\w\-]+)+[#?]?.*$/gm),
+    .regex(/^https?:\/\/[\w\-]+(\.[\w\-]+)+[#?]?.*$/m),
   description: Joi.string(),
-  photo: Joistring()
-    .required()
-    .regex(/(https?:\/\/.*\.(?:png|jpg|jpeg))/gm),
+  photo: Joi.string()
+    .regex(/^https?:\/\/.*$/m),
   name: Joi.string()
-    .required() 
-    .min(3),
+    .min(3)
 });
+  
+const createSchema = updateSchema.concat(Joi.object({
+  gender: Joi.required(),
+  url: Joi.required(),
+  photo: Joi.required(),
+  name: Joi.required() 
+}))
 
-module.exports = {createSchema};
+module.exports = {updateSchema, createSchema};
